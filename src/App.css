@@ -1,0 +1,14 @@
+.App {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.background-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  position: relative;
+  z-index: 0;
+}
+
