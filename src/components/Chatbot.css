@@ -388,6 +388,26 @@
   padding-right: 2.5rem;
 }
 
+.disclaimer-message {
+  width: 100%;
+  justify-content: center;
+}
+
+.disclaimer-message .message-content {
+  max-width: 100%;
+  width: 100%;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid #e5e5e5;
+  border-radius: 0;
+  padding: 1rem;
+  color: #666666;
+  font-size: 0.875rem;
+  font-weight: 400;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
 .ai-label {
   position: absolute;
   bottom: 0.5rem;
@@ -568,6 +588,20 @@
   background-color: #2a2a2a;
   color: #ffffff;
   border-color: #333333;
+}
+
+.design-3 .disclaimer-message .message-content {
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid #333333;
+  color: #999999;
+}
+
+.design-3 .disclaimer-message .message-content {
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid #333333;
+  color: #999999;
 }
 
 .design-3 .user-message .message-content {

@@ -4,6 +4,11 @@ import './Chatbot.css'
 const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [messages, setMessages] = useState([
+    { 
+      text: 'Ikke del sensitiv informasjon som passord, personnummer, bankkortdetaljer eller annen personlig informasjon i denne chatten.', 
+      sender: 'bot', 
+      isDisclaimer: true 
+    },
     { text: 'Hei! Jeg er en AI-assistent. Hvordan kan jeg hjelpe deg i dag?', sender: 'bot' }
   ])
   const [inputValue, setInputValue] = useState('')
@@ -134,13 +139,13 @@ const Chatbot = () => {
           
           <div className="chatbot-messages">
             {messages.map((message, index) => (
-              <div key={index} className={`message ${message.sender}-message`}>
+              <div key={index} className={`message ${message.sender}-message ${message.isDisclaimer ? 'disclaimer-message' : ''}`}>
                 {/* <div className="message-avatar">
                   {message.sender === 'bot' && getAIIcon("ai-icon-small")}
                 </div> */}
                 <div className="message-content">
                   <p>{message.text}</p>
-                  {message.sender === 'bot' && (
+                  {message.sender === 'bot' && !message.isDisclaimer && (
                     <span className="ai-label">AI</span>
                   )}
                 </div>
