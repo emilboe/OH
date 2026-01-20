@@ -28,7 +28,7 @@ const Chatbot = () => {
   const getAIIcon = (className = "chatbot-icon") => {
     return (
       <img 
-        src="/Olav.png" 
+        src={`${import.meta.env.BASE_URL}Olav.png`}
         alt="AI Assistant" 
         className={className}
       />

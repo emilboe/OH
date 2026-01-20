@@ -6,7 +6,7 @@ function App() {
   return (
     <div className="App">
       <img 
-        src="/olavshallen-background.png" 
+        src={`${import.meta.env.BASE_URL}olavshallen-background.png`}
         alt="Olavshallen background" 
         className="background-image"
       />
