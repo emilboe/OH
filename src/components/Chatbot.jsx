@@ -3,32 +3,46 @@ import './Chatbot.css'
 
 const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false)
+  const [isClosing, setIsClosing] = useState(false)
   const [messages, setMessages] = useState([
     { 
-      text: 'Ikke del sensitiv informasjon som passord, personnummer, bankkortdetaljer eller annen personlig informasjon i denne chatten.', 
+      text: 'Vennligst ikke del sensitiv informasjon som passord, personnummer, bankkortdetaljer eller annen personlig informasjon i denne chatten.', 
       sender: 'bot', 
       isDisclaimer: true 
     },
     { text: 'Hei! Jeg er en AI-assistent. Hvordan kan jeg hjelpe deg i dag?', sender: 'bot' }
   ])
   const [inputValue, setInputValue] = useState('')
-  const [currentDesign, setCurrentDesign] = useState(3)
+  const [currentDesign, setCurrentDesign] = useState(2)
+  const [currentIcon, setCurrentIcon] = useState(2)
+  const [currentButtonStyle, setCurrentButtonStyle] = useState(1)
   const [isTyping, setIsTyping] = useState(false)
   const messagesEndRef = useRef(null)
   const inputRef = useRef(null)
 
   const themes = [
-    { id: 1, name: 'Klassisk', description: 'Standard AI-design' },
-    { id: 2, name: 'Moderne', description: 'Gradient med border' },
-    { id: 3, name: 'Mørk', description: 'Dark mode' },
-    { id: 4, name: 'Lys', description: 'Minimalistisk' },
-    { id: 5, name: 'Futuristisk', description: 'Gradient med aksenter' }
+    { id: 1, name: 'Mørk', description: 'Dark mode', icon: '🌙' },
+    { id: 2, name: 'Moderne', description: 'Gradient med border', icon: '⚡' },
+    { id: 3, name: 'Lys', description: 'Minimalistisk', icon: '☀️' }
+  ]
+
+  const iconOptions = [
+    { id: 1, name: 'Smilechat', file: 'smilechat.svg' },
+    { id: 2, name: 'Olav', file: 'olavicon_6.svg' },
+    { id: 3, name: 'Blob smile', file: 'smilechatblob.svg' }
+  ]
+
+  const buttonStyles = [
+    { id: 1, name: 'Default', type: 'default' },
+    { id: 2, name: 'Blobs', file: 'Blobs.svg' },
+    { id: 3, name: 'Circle', type: 'circle' }
   ]
 
   const getAIIcon = (className = "chatbot-icon") => {
+    const selectedIcon = iconOptions.find(icon => icon.id === currentIcon)
     return (
       <img 
-        src={`${import.meta.env.BASE_URL}Olav.png`}
+        src={`${import.meta.env.BASE_URL}${selectedIcon.file}`}
         alt="AI Assistant" 
         className={className}
       />
@@ -88,29 +102,81 @@ const Chatbot = () => {
     setCurrentDesign(themeId)
   }
 
+  const handleIconChange = (iconId) => {
+    setCurrentIcon(iconId)
+  }
+
+  const handleButtonStyleChange = (styleId) => {
+    setCurrentButtonStyle(styleId)
+  }
+
   return (
     <>
-      {/* Theme Selector - Floating on left side for debugging */}
-      <div className="theme-selector-debug">
-        <label className="theme-selector-label">Chatbot Tema:</label>
-        <div className="theme-list">
-          {themes.map(theme => (
-            <button
-              key={theme.id}
-              className={`theme-button ${currentDesign === theme.id ? 'active' : ''}`}
-              onClick={() => handleThemeChange(theme.id)}
-              aria-label={`Velg ${theme.name} tema`}
-              title={theme.description}
-            >
-              <span className="theme-name">{theme.name}</span>
-            </button>
-          ))}
-        </div>
-      </div>
-
       <div className={`chatbot-container design-${currentDesign}`}>
+        {/* Selectors - Above chatbox */}
+        <div className="selectors-above">
+          {/* Theme Selector */}
+          <p>Testing </p>
+          <div className="theme-list">
+            {themes.map(theme => (
+              <button
+                key={theme.id}
+                className={`theme-button ${currentDesign === theme.id ? 'active' : ''}`}
+                onClick={() => handleThemeChange(theme.id)}
+                aria-label={`Velg ${theme.name} tema`}
+                title={theme.description}
+              >
+                <span className="theme-icon">{theme.icon}</span>
+              </button>
+            ))}
+          </div>
+          
+          {/* Icon Selector */}
+          <div className="theme-list">
+            {iconOptions.map(icon => (
+              <button
+                key={icon.id}
+                className={`theme-button ${currentIcon === icon.id ? 'active' : ''}`}
+                onClick={() => handleIconChange(icon.id)}
+                aria-label={`Velg ${icon.name} ikon`}
+                title={icon.name}
+              >
+                <img 
+                  src={`${import.meta.env.BASE_URL}${icon.file}`}
+                  alt={icon.name}
+                  className="selector-icon"
+                />
+              </button>
+            ))}
+          </div>
+          
+          {/* Button Style Selector */}
+          <div className="theme-list">
+            {buttonStyles.map(style => (
+              <button
+                key={style.id}
+                className={`theme-button ${currentButtonStyle === style.id ? 'active' : ''}`}
+                onClick={() => handleButtonStyleChange(style.id)}
+                aria-label={`Velg ${style.name} stil`}
+                title={style.name}
+              >
+                {style.file ? (
+                  <img 
+                    src={`${import.meta.env.BASE_URL}${style.file}`}
+                    alt={style.name}
+                    className="selector-icon"
+                  />
+                ) : style.type === 'circle' ? (
+                  <span className="selector-circle"></span>
+                ) : (
+                  <span className="selector-default">●</span>
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
         {isOpen && (
-          <div className="chatbot-window">
+          <div className={`chatbot-window ${isClosing ? 'chat-closing' : 'chat-open'}`}>
             <div className="chatbot-header">
               <div className="chatbot-header-content">
                 <div className="chatbot-avatar">
@@ -129,7 +195,13 @@ const Chatbot = () => {
               <div className="chatbot-header-actions">
                 <button 
                   className="btn-close" 
-                  onClick={() => setIsOpen(false)}
+                  onClick={() => {
+                    setIsClosing(true)
+                    setTimeout(() => {
+                      setIsOpen(false)
+                      setIsClosing(false)
+                    }, 300)
+                  }}
                   aria-label="Lukk chatbot"
                 >
                   ×
@@ -197,13 +269,25 @@ const Chatbot = () => {
         </div>
       )}
       
-      <button 
-        className="chatbot-toggle" 
-        onClick={() => setIsOpen(!isOpen)}
-        aria-label={isOpen ? "Lukk chatbot" : "Åpne chatbot"}
-      >
-        {getAIIcon()}
-      </button>
+      {!isOpen && (
+        <button 
+          className={`chatbot-toggle button-style-${currentButtonStyle}`}
+          onClick={() => {
+            setIsClosing(false)
+            setIsOpen(true)
+          }}
+          aria-label="Åpne chatbot"
+        >
+          {currentButtonStyle === 2 && (
+            <img 
+              src={`${import.meta.env.BASE_URL}Blobs.svg`}
+              alt="Chat background"
+              className="chatbot-blobs-bg"
+            />
+          )}
+          {getAIIcon()}
+        </button>
+      )}
       </div>
     </>
   )
