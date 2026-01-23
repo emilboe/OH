@@ -278,13 +278,11 @@ const Chatbot = () => {
           }}
           aria-label="Åpne chatbot"
         >
-          {currentButtonStyle === 2 && (
-            <img 
-              src={`${import.meta.env.BASE_URL}Blobs.svg`}
-              alt="Chat background"
-              className="chatbot-blobs-bg"
-            />
-          )}
+          <img 
+            src={`${import.meta.env.BASE_URL}Blobs.svg`}
+            alt="Chat background"
+            className={`chatbot-blobs-bg ${currentButtonStyle === 2 ? 'blobs-visible' : 'blobs-hover'}`}
+          />
           {getAIIcon()}
         </button>
       )}

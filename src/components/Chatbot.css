@@ -120,14 +120,14 @@
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 16px rgba(255, 153, 153, 0.4);
-  transition: all 0.3s ease;
+  transition: all 0.3s ease, background-color 0.3s ease;
   position: relative;
 }
 
 .chatbot-toggle:hover {
   transform: scale(1.05);
   box-shadow: 0 6px 20px rgba(255, 153, 153, 0.6);
-  background-color: #ffaaaa;
+  background-color: transparent !important;
 }
 
 .chatbot-toggle:active {
@@ -138,6 +138,8 @@
   width: 34px;
   height: 34px;
   object-fit: contain;
+  position: relative;
+  z-index: 2;
 }
 
 .chatbot-toggle.button-style-2 {
@@ -191,6 +193,19 @@
   width: 64px;
   height: 64px;
   z-index: 1;
+  transition: opacity 0.3s ease;
+}
+
+.chatbot-blobs-bg.blobs-hover {
+  opacity: 0;
+}
+
+.chatbot-blobs-bg.blobs-visible {
+  opacity: 1;
+}
+
+.chatbot-toggle:hover .chatbot-blobs-bg.blobs-hover {
+  opacity: 1;
 }
 
 /* Design 1: Dark Theme - Black blobs */
