@@ -112,22 +112,31 @@
   width: 64px;
   height: 64px;
   border-radius: 20px 20px 20px 4px;
-  background-color: #FF9999;
+  background-color: var(--color-red-300);
   color: #1a1a1a;
   border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 16px rgba(255, 153, 153, 0.4);
-  transition: all 0.3s ease, background-color 0.3s ease;
+  box-shadow: 0 4px 16px rgba(255, 128, 168, 0.4);
+  transition: border-radius 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s ease;
   position: relative;
+  overflow: hidden;
 }
 
 .chatbot-toggle:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 20px rgba(255, 153, 153, 0.6);
+  box-shadow: 0 6px 20px rgba(255, 128, 168, 0.6);
+}
+
+.chatbot-toggle:not(.button-style-2):hover {
   background-color: transparent !important;
+}
+
+.design-1 .chatbot-toggle:not(.button-style-2):not(.button-style-3):hover,
+.design-2 .chatbot-toggle:not(.button-style-2):not(.button-style-3):hover,
+.design-3 .chatbot-toggle:not(.button-style-2):not(.button-style-3):hover {
+  border-radius: 50% !important;
 }
 
 .chatbot-toggle:active {
@@ -186,40 +195,53 @@
   background: none !important;
 }
 
-.chatbot-blobs-bg {
+/* Single background that gets masked */
+.chatbot-toggle-bg {
   position: absolute;
   top: 0;
   left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  background-color: var(--color-red-300);
+  mask: url(#morphMask);
+  -webkit-mask: url(#morphMask);
+  mask-size: 64px 64px;
+  -webkit-mask-size: 64px 64px;
+  mask-position: center;
+  -webkit-mask-position: center;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+}
+
+/* SVG mask container - visually hidden but mask is used */
+.chatbot-morph-mask {
+  position: absolute;
   width: 64px;
   height: 64px;
-  z-index: 1;
-  transition: opacity 0.3s ease;
-}
-
-.chatbot-blobs-bg.blobs-hover {
+  top: 0;
+  left: 0;
+  pointer-events: none;
   opacity: 0;
+  z-index: -1;
 }
 
-.chatbot-blobs-bg.blobs-visible {
-  opacity: 1;
-}
-
-.chatbot-toggle:hover .chatbot-blobs-bg.blobs-hover {
-  opacity: 1;
-}
 
 /* Design 1: Dark Theme - Black blobs */
-.design-1 .chatbot-blobs-bg {
+.design-1 .chatbot-blobs-bg,
+.design-1 .chatbot-morph-svg image {
   filter: brightness(0) drop-shadow(0 0 2px rgba(255, 255, 255, 0.5)) drop-shadow(0 0 4px rgba(255, 255, 255, 0.3));
 }
 
 /* Design 2: Moderne Theme - Keep original purple */
-.design-2 .chatbot-blobs-bg {
+.design-2 .chatbot-blobs-bg,
+.design-2 .chatbot-morph-svg image {
   filter: none;
 }
 
 /* Design 3: Light Theme - White blobs */
-.design-3 .chatbot-blobs-bg {
+.design-3 .chatbot-blobs-bg,
+.design-3 .chatbot-morph-svg image {
   filter: brightness(0) invert(1);
 }
 
@@ -230,12 +252,28 @@
   z-index: 2;
 }
 
+/* Button Style 3: Circle - morphs to chat bubble on hover */
 .chatbot-toggle.button-style-3 {
-  border-radius: 50%;
+  border-radius: 50% !important;
+}
+
+.chatbot-toggle.button-style-3:hover,
+.design-1 .chatbot-toggle.button-style-3:hover,
+.design-2 .chatbot-toggle.button-style-3:hover,
+.design-3 .chatbot-toggle.button-style-3:hover {
+  border-radius: 20px 20px 20px 4px !important;
+}
+
+.chatbot-toggle.button-style-3:hover {
+  border-radius: 20px 20px 20px 4px !important;
 }
 
 .design-3 .chatbot-icon {
-  filter: brightness(0) saturate(100%) invert(78%) sepia(12%) saturate(2873%) hue-rotate(295deg) brightness(102%) contrast(101%);
+  filter: brightness(0) saturate(100%) invert(77%) sepia(67%) saturate(1352%) hue-rotate(300deg) brightness(102%) contrast(101%);
+}
+
+.design-1 .chatbot-icon {
+  filter: brightness(0) invert(1);
 }
 
 
@@ -355,7 +393,7 @@
 }
 
 .ai-badge {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.1) 100%);
+  background-color: var(--color-red-300);
   color: #ffffff;
   padding: 0.125rem 0.5rem;
   border-radius: 12px;
@@ -500,7 +538,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #f0f0f0 0%, #e5e5e5 100%);
+  background-color: var(--color-red-300);
   border: 2px solid #e0e0e0;
 }
 
@@ -519,7 +557,7 @@
 }
 
 .user-message .message-avatar {
-  background: linear-gradient(135deg, #FF9999 0%, #ffaaaa 100%);
+  background-color: var(--color-red-300);
   border: 2px solid #ff8888;
 }
 
@@ -560,6 +598,7 @@
   text-align: center;
   margin-bottom: 0.5rem;
   margin-top: 0;
+  background: none;
 }
 
 .ai-label {
@@ -573,7 +612,7 @@
 }
 
 .user-message .message-content {
-  background-color: #FF9999;
+  background-color: var(--color-red-300);
   color: #1a1a1a;
   border-bottom-right-radius: 4px;
 }
@@ -655,13 +694,13 @@
 }
 
 .chatbot-input:focus {
-  border-color: #FF9999;
+  border-color: var(--color-red-300);
   background-color: #ffffff;
-  box-shadow: 0 0 0 3px rgba(255, 153, 153, 0.1);
+  box-shadow: 0 0 0 3px rgba(255, 128, 168, 0.1);
 }
 
 .btn-send {
-  background-color: #FF9999;
+  background-color: var(--color-red-300);
   color: #1a1a1a;
   border: none;
   border-radius: 12px;
@@ -677,7 +716,8 @@
 }
 
 .btn-send:hover {
-  background-color: #ffaaaa;
+  background-color: var(--color-red-300);
+  opacity: 0.9;
   transform: scale(1.05);
 }
 
@@ -695,6 +735,10 @@
   background-color: #1a1a1a;
   border: 1px solid rgba(255, 255, 255, 0.15);
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2), 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.design-1 .chatbot-toggle-bg {
+  background-color: #1a1a1a;
 }
 
 .design-1 .chatbot-window {
@@ -721,14 +765,25 @@
 }
 
 .design-1 .disclaimer-message .message-content {
-  background-color: transparent;
+  background-color: transparent !important;
+  background: none !important;
   border: none;
   border-bottom: 1px solid #333333;
   color: #999999;
 }
 
+.design-2 .disclaimer-message .message-content {
+  background-color: transparent !important;
+  background: none !important;
+}
+
+.design-3 .disclaimer-message .message-content {
+  background-color: transparent !important;
+  background: none !important;
+}
+
 .design-1 .user-message .message-content {
-  background-color: #FF9999;
+  background-color: var(--color-red-300);
   color: #1a1a1a;
 }
 
@@ -754,9 +809,17 @@
   border-color: rgba(255, 255, 255, 0.2);
 }
 
+.design-1 .chatbot-toggle:not(.button-style-2):not(.button-style-3):hover {
+  border-radius: 50% !important;
+}
+
+.design-1 .chatbot-toggle:not(.button-style-2):hover {
+  background-color: transparent !important;
+}
+
 /* Design 2: Gradient with Border (Moderne) */
 .design-2 .chatbot-toggle {
-  background: linear-gradient(135deg, var(--color-orange-300) 0%, var(--color-red-300) 100%);
+  background-color: var(--color-red-300);
 }
 
 .design-2 .chatbot-toggle.button-style-2 {
@@ -776,7 +839,7 @@
 }
 
 .design-2 .chatbot-header {
-  background: linear-gradient(135deg, var(--color-orange-300) 0%, var(--color-red-300) 100%);
+  background-color: var(--color-red-300);
 }
 
 .design-2 .message-content {
@@ -794,13 +857,26 @@
 /* Design 3: Light/Minimal (Lys) */
 .design-3 .chatbot-toggle {
   background-color: #ffffff;
-  color: #FF9999;
+  color: var(--color-red-300);
   border: none;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
-.design-3 .chatbot-toggle:hover {
-  background-color: #fff5f5;
+.design-3 .chatbot-toggle-bg {
+  background-color: #ffffff;
+}
+
+
+.design-3 .chatbot-toggle:not(.button-style-2):not(.button-style-3):hover {
+  background-color: #fff5f5 !important;
+}
+
+.design-1 .chatbot-toggle:not(.button-style-2):hover {
+  background-color: transparent !important;
+}
+
+.design-3 .chatbot-toggle.button-style-2:hover {
+  background-color: transparent !important;
 }
 
 .design-3 .chatbot-window {
@@ -846,16 +922,21 @@
 
 .design-3 .bot-message .message-content {
   background-color: #f5f5f5;
+  color: #1a1a1a;
   border-color: #e5e5e5;
 }
 
 .design-3 .user-message .message-content {
-  background-color: #FF9999;
+  background-color: var(--color-red-300);
   color: #1a1a1a;
 }
 
+.design-3 .chatbot-input {
+  color: #000000;
+}
+
 .design-3 .chatbot-icon {
-  filter: brightness(0) saturate(100%) invert(78%) sepia(12%) saturate(2873%) hue-rotate(295deg) brightness(102%) contrast(101%);
+  filter: brightness(0) saturate(100%) invert(77%) sepia(67%) saturate(1352%) hue-rotate(300deg) brightness(102%) contrast(101%);
 }
 
 .design-3 .ai-icon {
