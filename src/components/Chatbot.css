@@ -859,6 +859,10 @@
   background-color: var(--color-red-300);
 }
 
+.design-2 .chatbot-input {
+  color: #000000;
+}
+
 .design-2 .message-content {
   border-radius: 20px;
 }

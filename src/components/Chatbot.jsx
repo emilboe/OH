@@ -7,7 +7,7 @@ const Chatbot = () => {
   const [isClosing, setIsClosing] = useState(false)
   const [messages, setMessages] = useState([
     { 
-      text: 'Vennligst ikke del sensitiv informasjon som passord, personnummer, bankkortdetaljer eller annen personlig informasjon i denne chatten.', 
+      text: 'Vennligst ikke del sensitiv informasjon som passord, personnummer, bankkortdetaljer eller annen personlig data i denne chatten.', 
       sender: 'bot', 
       isDisclaimer: true 
     },
