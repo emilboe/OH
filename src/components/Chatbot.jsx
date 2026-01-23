@@ -81,6 +81,9 @@ const Chatbot = () => {
 
   // Morphing animation setup - morphs the mask from chat bubble to blob
   useEffect(() => {
+    // Only run when button is visible (chat is closed)
+    if (isOpen) return
+    
     const pathElement = morphPathRef.current
     if (!pathElement) return
 
@@ -174,7 +177,7 @@ const Chatbot = () => {
         button.removeEventListener('mouseleave', handleMouseLeave)
       }
     }
-  }, [currentButtonStyle])
+  }, [currentButtonStyle, isOpen])
 
   const botResponses = [
     'Takk for din melding! Hvordan kan jeg hjelpe deg videre?',

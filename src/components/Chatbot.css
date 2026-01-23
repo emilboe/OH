@@ -129,8 +129,8 @@
   box-shadow: 0 6px 20px rgba(255, 128, 168, 0.6);
 }
 
-.chatbot-toggle:not(.button-style-2):hover {
-  background-color: transparent !important;
+.chatbot-toggle:not(.button-style-2) {
+  background-color: var(--color-red-300) !important;
 }
 
 .design-1 .chatbot-toggle:not(.button-style-2):not(.button-style-3):hover,
@@ -214,6 +214,11 @@
   -webkit-mask-repeat: no-repeat;
 }
 
+/* Hide masked background for non-blob buttons */
+.chatbot-toggle:not(.button-style-2) .chatbot-toggle-bg {
+  display: none;
+}
+
 /* SVG mask container - visually hidden but mask is used */
 .chatbot-morph-mask {
   position: absolute;
@@ -255,6 +260,10 @@
 /* Button Style 3: Circle - morphs to chat bubble on hover */
 .chatbot-toggle.button-style-3 {
   border-radius: 50% !important;
+}
+
+.chatbot-toggle.button-style-3 {
+  background-color: var(--color-red-300) !important;
 }
 
 .chatbot-toggle.button-style-3:hover,
@@ -761,7 +770,7 @@
   background-color: #2a2a2a;
   color: #ffffff;
   border-color: #333333;
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05);
+  /* box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.05); */
 }
 
 .design-1 .disclaimer-message .message-content {
@@ -813,12 +822,20 @@
   border-radius: 50% !important;
 }
 
-.design-1 .chatbot-toggle:not(.button-style-2):hover {
-  background-color: transparent !important;
+.design-1 .chatbot-toggle:not(.button-style-2) {
+  background-color: #1a1a1a !important;
+}
+
+.design-1 .chatbot-toggle.button-style-3 {
+  background-color: #1a1a1a !important;
 }
 
 /* Design 2: Gradient with Border (Moderne) */
 .design-2 .chatbot-toggle {
+  background-color: var(--color-red-300);
+}
+
+.design-2 .chatbot-toggle-bg {
   background-color: var(--color-red-300);
 }
 
@@ -867,13 +884,18 @@
 }
 
 
+.design-3 .chatbot-toggle:not(.button-style-2):not(.button-style-3) {
+  background-color: #ffffff !important;
+}
+
+.design-3 .chatbot-toggle.button-style-3 {
+  background-color: #ffffff !important;
+}
+
 .design-3 .chatbot-toggle:not(.button-style-2):not(.button-style-3):hover {
   background-color: #fff5f5 !important;
 }
 
-.design-1 .chatbot-toggle:not(.button-style-2):hover {
-  background-color: transparent !important;
-}
 
 .design-3 .chatbot-toggle.button-style-2:hover {
   background-color: transparent !important;
