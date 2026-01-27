@@ -5,8 +5,14 @@ import Versjon2 from './pages/Versjon2'
 import './App.css'
 
 function App() {
+  // Use the same base URL that Vite uses for assets
+  // This will be '/' in development and '/OH/' when deployed to GitHub Pages
+  // React Router's basename should not have a trailing slash
+  const baseUrl = import.meta.env.BASE_URL
+  const basename = baseUrl === '/' ? '/' : baseUrl.replace(/\/$/, '')
+  
   return (
-    <Router>
+    <Router basename={basename}>
       <Routes>
         <Route path="/" element={
           <div className="App">
