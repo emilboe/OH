@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import { interpolate } from 'flubber'
 import './Chatbot.css'
 
-const Chatbot = () => {
+const Chatbot = ({ lockedDesign, lockedButtonStyle }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [isClosing, setIsClosing] = useState(false)
   const [messages, setMessages] = useState([
@@ -11,12 +11,25 @@ const Chatbot = () => {
       sender: 'bot', 
       isDisclaimer: true 
     },
-    { text: 'Hei! Jeg er en AI-assistent. Hvordan kan jeg hjelpe deg i dag?', sender: 'bot' }
+    { text: 'Hei! Jeg er en KI-assistent. Hvordan kan jeg hjelpe deg i dag?', sender: 'bot' }
   ])
   const [inputValue, setInputValue] = useState('')
-  const [currentDesign, setCurrentDesign] = useState(2)
+  const [currentDesign, setCurrentDesign] = useState(lockedDesign ?? 2)
   const [currentIcon, setCurrentIcon] = useState(2)
-  const [currentButtonStyle, setCurrentButtonStyle] = useState(2)
+  const [currentButtonStyle, setCurrentButtonStyle] = useState(lockedButtonStyle ?? 2)
+
+  // Update state when locked props change
+  useEffect(() => {
+    if (lockedDesign !== undefined) {
+      setCurrentDesign(lockedDesign)
+    }
+  }, [lockedDesign])
+
+  useEffect(() => {
+    if (lockedButtonStyle !== undefined) {
+      setCurrentButtonStyle(lockedButtonStyle)
+    }
+  }, [lockedButtonStyle])
   const [isTyping, setIsTyping] = useState(false)
   const messagesEndRef = useRef(null)
   const inputRef = useRef(null)
@@ -211,59 +224,71 @@ const Chatbot = () => {
   }
 
   const handleThemeChange = (themeId) => {
-    setCurrentDesign(themeId)
+    if (!lockedDesign) {
+      setCurrentDesign(themeId)
+    }
   }
 
   const handleButtonStyleChange = (styleId) => {
-    setCurrentButtonStyle(styleId)
+    if (!lockedButtonStyle) {
+      setCurrentButtonStyle(styleId)
+    }
   }
 
   return (
     <>
       <div className={`chatbot-container design-${currentDesign}`}>
-        {/* Selectors - Above chatbox */}
-        <div className="selectors-above">
-          {/* Theme Selector */}
-          <p>Testing </p>
-          <div className="theme-list">
-            {themes.map(theme => (
-              <button
-                key={theme.id}
-                className={`theme-button ${currentDesign === theme.id ? 'active' : ''}`}
-                onClick={() => handleThemeChange(theme.id)}
-                aria-label={`Velg ${theme.name} tema`}
-                title={theme.description}
-              >
-                <span className="theme-icon">{theme.icon}</span>
-              </button>
-            ))}
+        {/* Selectors - Above chatbox - Only show if not locked */}
+        {(!lockedDesign || !lockedButtonStyle) && (
+          <div className="selectors-above">
+            {/* Theme Selector */}
+            {!lockedDesign && (
+              <>
+                <p>Testing </p>
+                <div className="theme-list">
+                  {themes.map(theme => (
+                    <button
+                      key={theme.id}
+                      className={`theme-button ${currentDesign === theme.id ? 'active' : ''}`}
+                      onClick={() => handleThemeChange(theme.id)}
+                      aria-label={`Velg ${theme.name} tema`}
+                      title={theme.description}
+                    >
+                      <span className="theme-icon">{theme.icon}</span>
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
+            
+            {/* Button Style Selector */}
+            {!lockedButtonStyle && (
+              <div className="theme-list">
+                {buttonStyles.map(style => (
+                  <button
+                    key={style.id}
+                    className={`theme-button ${currentButtonStyle === style.id ? 'active' : ''}`}
+                    onClick={() => handleButtonStyleChange(style.id)}
+                    aria-label={`Velg ${style.name} stil`}
+                    title={style.name}
+                  >
+                    {style.file ? (
+                      <img 
+                        src={`${import.meta.env.BASE_URL}${style.file}`}
+                        alt={style.name}
+                        className="selector-icon"
+                      />
+                    ) : style.type === 'circle' ? (
+                      <span className="selector-circle"></span>
+                    ) : (
+                      <span className="selector-default">●</span>
+                    )}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
-          
-          {/* Button Style Selector */}
-          <div className="theme-list">
-            {buttonStyles.map(style => (
-              <button
-                key={style.id}
-                className={`theme-button ${currentButtonStyle === style.id ? 'active' : ''}`}
-                onClick={() => handleButtonStyleChange(style.id)}
-                aria-label={`Velg ${style.name} stil`}
-                title={style.name}
-              >
-                {style.file ? (
-                  <img 
-                    src={`${import.meta.env.BASE_URL}${style.file}`}
-                    alt={style.name}
-                    className="selector-icon"
-                  />
-                ) : style.type === 'circle' ? (
-                  <span className="selector-circle"></span>
-                ) : (
-                  <span className="selector-default">●</span>
-                )}
-              </button>
-            ))}
-          </div>
-        </div>
+        )}
         {isOpen && (
           <div className={`chatbot-window ${isClosing ? 'chat-closing' : 'chat-open'}`}>
             <div className="chatbot-header">
@@ -273,7 +298,7 @@ const Chatbot = () => {
                 </div>
                 <div className="chatbot-header-text">
                   <div className="chatbot-title-row">
-                    <h3 className="chatbot-title">Olav Hallen</h3>
+                    <h3 className="chatbot-title">Olava</h3>
                   </div>
                   <p className="chatbot-subtitle">
                     <span className="status-indicator"></span>
@@ -307,7 +332,7 @@ const Chatbot = () => {
                 <div className="message-content">
                   <p>{message.text}</p>
                   {message.sender === 'bot' && !message.isDisclaimer && (
-                    <span className="ai-label">AI</span>
+                    <span className="ai-label">KI</span>
                   )}
                 </div>
               </div>
